@@ -9,16 +9,24 @@
     <title>home</title>
     
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.22.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     </head>
     
     
     
-    <body  >
+    <body style="background-color: #1D1D20;"  >
     
         <div id="print">      
      
@@ -58,8 +66,8 @@ $(document).ready(function(){
   
 %>
 
-    
 <% 
+    
     //get total pending price of a aproduct        
     String mt="select sum(total) from customers_details where payment_status=? and customer_id=? ";
     PreparedStatement  pst_pending=database.connection.getConnection().prepareStatement(mt);
@@ -91,126 +99,16 @@ $(document).ready(function(){
         
         
         
-<%
-    
-    //GETING ADMIN DATA....NAME...SHOP NAME...ETC.
-    
-String a="select * from admin_details ";
-PreparedStatement  admin=database.connection.getConnection().prepareStatement(a);
-ResultSet admin_x=admin.executeQuery();
-if(admin_x.next()){%>
-       
 
-<div class="col-sm-6" style="font-size: 10px">
-<br><br>
-<h5 ><%= admin_x.getString("shop_type").toUpperCase()+" :"%></h5>                     
-
-<h6 ><%= admin_x.getString("shop_name").toUpperCase()%></h6>                     
-<h6 ><%= admin_x.getString("name").toUpperCase()%></h6>                     
-<h6><%= admin_x.getString("address").toUpperCase()%></h6>
-<h6>Phone: <%=admin_x.getLong("phoneno")%></h6>
-<h6  >Email: <%=admin_x.getString("email")%></h6>
-<br>
-</div>
- 
-<%}%>    
-</div>
        
 
 <br><center> <h4 class="mt-4 mb-4">CUSTOMER (Details & Receipt)</h4> </center><br>
 
 
       
-   <%     
-    
-       //TAKING ALL THE CUSTOMER DATA
-      
-  a="select * from customer where id=? and name=?";
-PreparedStatement  pst=database.connection.getConnection().prepareStatement(a);
-pst.setInt(1,(int)session.getAttribute("id"));
-pst.setString(2,(String) session.getAttribute("customer"));
-ResultSet x=pst.executeQuery();
-if(x.next()){
-int id=x.getInt("id");%>
-       
-<div class="mb-5 ms-3">
-<h3 class="text-dark mb-1"><%= x.getString("name").toUpperCase()%></h3>                     
-<div><%= x.getString("address").toUpperCase()%></div>
-<div>Phone: <%=x.getLong("phone")%></div>
-</div>
 
-<%}%>      
         
-    <form action="adddetails" method="post">
- 
-        
-    
-        
-        
-<!--   TEXT BOXES AND BUTTON FOR ADDING PRODUCT     -->
 
-<div id="xyz">  
-    
- <div class="input-group mb-3" >
-     <input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   
-  <input type="number" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
-  <input type="number" class="form-control" name="prod_quantity" placeholder="Product Quantity" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
-  <input type="hidden"  name="id"  value="<%=(int)session.getAttribute("id")%>">
-  
-  <select class="form-select" id="inputGroupSelect01" name="payment" required>
-    <option value="">Payment Status</option>
-    <option value="Paid">Paid</option>
-    <option value="Pending">Pending</option>
-  </select>
-  <button class="btn btn-outline-secondary" type="button" id="btnAdd">ADD</button>
-   
-
- </div>   
-    
-</div>  
-
-  <center>     <button class="btn btn-outline-dark mb-4" type="submit"  >SUBMIT</button></center>
-
-
-              
-              
-<!--     USING JAVASCRIPT TO CREATING DYNAMIC TEXT BOXES       -->
-      
-<script type="text/javascript">
-$(function () {
-    $("#btnAdd").bind("click", function () {
-        var div = $("<div />");
-        div.html(GetDynamicTextBox(""));
-        $("#xyz").append(div);
-    });
-    
-    $("body").on("click", ".remove", function () {
-        $(this).closest("div").remove();
-    });
-});
-function GetDynamicTextBox() {
-    return ' <div class="input-group mb-3" >'+
-'<input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   &nbsp;'+
-' <input type="text" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
- '  <input type="text" class="form-control" name="prod_quantity" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
-   '<select class="form-select" id="inputGroupSelect01" name="payment" required>'+
-    '<option selected>Payment Status</option>'+
-    '<option value="Paid">Paid</option>'+
-    '<option value="Pending">Pending</option>'+
-  '</select>'+        
-                
-    '<input type="button" value="Remove" class="remove btn btn-outline-danger" />'+
-    
-    
-    
-    '</div>'
-    
-    
-}
-</script>
-
-
-    </form>
 
 
 
@@ -231,7 +129,7 @@ function GetDynamicTextBox() {
         
 //      TAKING DATA FROM CUSTOMER_DETAILS AND ADDING TO CUSTOMER TABLE  FOR USING GRAPH 
         
-a="update Customer set total_amt=? ,total_paid=?,total_pending=? where id=?";
+String a="update Customer set total_amt=? ,total_paid=?,total_pending=? where id=?";
 
     PreparedStatement pst_insert=database.connection.getConnection().prepareStatement(a);
     pst_insert.setInt(1,(int)total);
@@ -242,8 +140,175 @@ a="update Customer set total_amt=? ,total_paid=?,total_pending=? where id=?";
     pst_insert.executeUpdate();
     
   %>     
-        
+     
+  
+
+
    
+<br><br><br>
+  <div class="flex">
+    <div class="grow mr-4 "  style="background-color:#202023 ; ">
+      <div class=" grid-rows-6 " >
+
+
+
+        <%
+    
+        //GETING ADMIN DATA....NAME...SHOP NAME...ETC.
+        
+     a="select * from admin_details ";
+    PreparedStatement  admin=database.connection.getConnection().prepareStatement(a);
+    ResultSet admin_x=admin.executeQuery();
+    if(admin_x.next()){%>
+           
+    
+
+
+
+    <div  name="btn" class="shadow-xl  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+ 
+      <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-left  font-bold tracking-tight text-gray-900 dark:text-white" ><%= admin_x.getString("name").toUpperCase()%></h5>
+          <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;"><%= admin_x.getString("address").toUpperCase()%> </p>
+          <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;"><%=admin_x.getString("email")%>&nbsp;&nbsp; </p>
+    
+          
+      </div><br>
+    </div>  
+     
+    <%}%>    
+
+
+
+        
+    <%     
+    
+    //TAKING ALL THE CUSTOMER DATA
+   
+ a="select * from customer where id=? and name=?";
+PreparedStatement  pst=database.connection.getConnection().prepareStatement(a);
+pst.setInt(1,(int)session.getAttribute("id"));
+pst.setString(2,(String) session.getAttribute("customer"));
+ResultSet x=pst.executeQuery();
+if(x.next()){
+int id=x.getInt("id");%>
+    
+
+
+    
+                
+        
+
+
+          <div  name="btn" class="shadow-xl  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+            <input type="hidden" name="id" value="<%=x.getInt("id")%>" >
+            <input type="hidden" name="customer" value="<%=x.getString("name")%>" >
+            <div class="flex flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-left  font-bold tracking-tight text-gray-900 dark:text-white" ><%= x.getString("name").toUpperCase()%></h5>
+                <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;"><%= x.getString("address").toUpperCase()%></p>
+                <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;"><%=x.getLong("phone")%></p>
+
+                
+          
+            </div><br>
+          </div>
+
+          <%}%>  
+     
+        <div id="myPlot" style="width:100%;max-width:97%;height: 10cm;"></div>
+
+      </div>
+    </div>
+
+
+
+    <div class="grow-0 ">
+
+
+
+
+      <form action="adddetails" method="post">
+ 
+        
+    
+        
+        
+        <!--   TEXT BOXES AND BUTTON FOR ADDING PRODUCT     -->
+        
+        <div id="xyz">  
+            
+         <div class="input-group mb-3" >
+             <input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   
+          <input type="number" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
+          <input type="number" class="form-control" name="prod_quantity" placeholder="Product Quantity" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
+          <input type="hidden"  name="id"  value="<%=(int)session.getAttribute("id")%>">
+          
+          <select class="form-select" id="inputGroupSelect01" name="payment" required>
+            <option value="">Payment Status</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+          </select>
+          <button class="btn btn-outline-secondary" type="button" id="btnAdd">ADD</button>
+           
+        
+         </div>   
+            
+        </div>  
+        
+          <center>     <button class="btn btn-outline-dark mb-4" type="submit"  >SUBMIT</button></center>
+        
+        
+                      
+                      
+        <!--     USING JAVASCRIPT TO CREATING DYNAMIC TEXT BOXES       -->
+              
+        <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").bind("click", function () {
+                var div = $("<div />");
+                div.html(GetDynamicTextBox(""));
+                $("#xyz").append(div);
+            });
+            
+            $("body").on("click", ".remove", function () {
+                $(this).closest("div").remove();
+            });
+        });
+        function GetDynamicTextBox() {
+            return ' <div class="input-group mb-3" >'+
+        '<input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   &nbsp;'+
+        ' <input type="text" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
+         '  <input type="text" class="form-control" name="prod_quantity" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
+           '<select class="form-select" id="inputGroupSelect01" name="payment" required>'+
+            '<option selected>Payment Status</option>'+
+            '<option value="Paid">Paid</option>'+
+            '<option value="Pending">Pending</option>'+
+          '</select>'+        
+                        
+            '<input type="button" value="Remove" class="remove btn btn-outline-danger" />'+
+            
+            
+            
+            '</div>'
+            
+            
+        }
+        </script>
+        
+        
+            </form>
+
+
+
+
+  
+  
+
+    
+    
+
+
+
 <!--TABLE -->
         
  <%  
@@ -255,33 +320,63 @@ pst1.setInt(1,(int)session.getAttribute("id"));
 
 ResultSet x1=pst1.executeQuery();%>
 
-<div>
-<table class="table table-borderless shadow  "  >
-    <thead>    
-    <tr> 
-        <th scope="col"><br></th> 
-    </tr>  
-      
-    <tr>
-      <th scope="col">PRODUCT_NAME</th>
-      <th scope="col">PRODUCT_PRICE</th>
-      <th scope="col">PRODUCT_QUANTITY</th>
-      <th scope="col">TOTAL PRICE</th>     
-      <th scope="col">PAYMENT STATUS</th>
-      <th scope="col">DATE & TIME</th>
-      <th scope="col">ACTION</th>
-    </tr>
 
-    <th scope="col"><br></th>
-    </thead>
-    
-    <tbody>
+    <!-- <div role="status" class="p-4 space-y-4 max-w-md rounded border border-gray-200 divide-y divide-gray-200 shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"> -->
 
+      <div class="p-4  max-w-xl bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style="background-color: #2E2E33;">
+        <div class="flex justify-between items-center mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Customers</h5>
+            <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                View all
+            </a>
+       </div>
+       <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
 <%while(x1.next()){%>   
         
 
+
+
+
+
+
+
+
+
+
+
  
-  <tr>
+              <li class="py-3 sm:py-4">
+                  <div class="flex items-center space-x-4">
+                 
+                      <div class="flex-1 min-w-0">
+                          <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            <%=x1.getString("product_name")%>
+                          </p>
+                          <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                              email@windster.com
+                          </p>
+                      </div>
+                      <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        <%=x1.getString("product_price")%>
+                        <form  action="remove_product" method="post">
+                          <input type="hidden" value="<%=x1.getInt("id")%>" name="prod_id"">
+                          <input type="submit" class="btn  mt-3  btn-sm ps-4 pe-4 btn-danger" name="delete"value="remove" onclick="alert('do you want to delete!')">
+                          </form>  
+                      </div>
+                  </div>
+              </li>
+             
+
+  
+
+
+
+
+
+
+ 
+  <!-- <tr>
     <td><%=x1.getString("product_name")%></td>
     <td><%=x1.getString("product_price")%></td>
         <td><%=x1.getString("prod_quantity")%></td>
@@ -299,88 +394,123 @@ ResultSet x1=pst1.executeQuery();%>
     </form>  
     </td>
 
-  </tr>
+  </tr> -->
   
       
 <% } 
-
-
 %>  
-    
-<td class="bg-dark"></td>  
-<td class="bg-dark text-light">Total: <%=total%></td>  
-<td class="bg-dark text-light">Paid: <%=paid%> </td>  
-<td class="bg-dark text-light"> Pending: <%=pending%></td>  
-<td class="bg-dark"></td>  
-<td class="bg-dark"></td>  
-<td class="bg-dark"></td>  
-
-
-
-    
-
-         
-    
-   </tbody>
-</table>  
-   
+</ul>
 </div>
-        
-          </div>
-      
-        
-        
-        <br><br><br><!-- comment -->
-                                <form action="adddetails" method="post">
+</div>
 
         
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="background-color: #222; color: white;" >
+     
+</div>
+    
+
+    
+    
+    
+          
+          
+          
+           
+    
+                          
+                                
+    
+</div>
   
-            <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Add  Customer</h5>
-          </div>
-          <div class="offcanvas-body mt-5 ">
-   
-              
-              
-              
-              
-              
-              
-              
-              
-              
+        
+        
+
+
+
+
+
+
+
+
+
+    
+<nav class=" fixed top-0 left-0 right-0 inset-x-0 top-0  z-40" style="background-color: #1D1D20;">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <!-- Mobile menu button-->
+        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+    
+          <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+ 
+          <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0 flex items-center"><h1 style="font-weight: bold;">ADMIN</h1>
+
+        </div>
+        <div class="hidden sm:block sm:ml-6">
+          <div class="flex space-x-4">
+            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+            <h1  class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white  rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none  dark:hover:bg-blue-700 " style="color: white;">
+              Details
+           
+            </h1>
+
+
+
+
+            <a href="home.jsp" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
             
-              </div>
-      
-              <div  style=" border-top: 5px solid  #1adad0;">
-                <center>       
-                <input type="hidden" name="id" value="<%=x.getInt("id")%>">  
-  <button type="submit" class="mt-4 mb-4 btn   btn-light  btn-sm ps-4 pe-4 "  value="ADD">SUBMIT</button>
-                  <button type="button" class="mt-4 mb-4 btn ms-3 btn-light  btn-sm ps-4 pe-4 " data-bs-dismiss="offcanvas" aria-label="Close">CLOSE</button>
+
+          </div>
+        </div>
+      </div>
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+        <!-- Profile dropdown -->
+        <div class="ml-3 relative">
+          <div>
+            <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" id="download"> download Pdf</button> 
+
         
-                </center>  
+          </div>
 
-              </div>
+<!--           
+            Dropdown menu, show/hide based on menu state.
 
-        </div>  </form>
+            Entering: "transition ease-out duration-100"
+              From: "transform opacity-0 scale-95"
+              To: "transform opacity-100 scale-100"
+            Leaving: "transition ease-in duration-75"
+              From: "transform opacity-100 scale-100"
+              To: "transform opacity-0 scale-95"
+          -->
 
-
-
-  <div class="col-md-12 text-right mb-3">
-            </div>
-  
-  
-
-        <br>
-
-    <div class="fixed-bottom shadow-lg "style="background-color:white; " >
-    <h5 class="ps-4 pe-4 mt-3 float-start ">DETAILS</h5>
-    <center> 
-        <a class="btn  mt-3 btn-outline-dark btn-sm ps-4 pe-4 mb-3" value="submit" href="home.jsp" > BACK TO HOME!!</a>
-        <button class="btn  mt-3 btn-outline-dark btn-sm ps-4 pe-4 mb-3" id="download"> DOWNLOAD PDF!!</button> 
-    </center>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Mobile menu, show/hide based on menu state. -->
+  <div class="sm:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+      <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
+    </div>
+  </div>
+</nav>
         
    
         
@@ -394,13 +524,13 @@ ResultSet x1=pst1.executeQuery();%>
     
  
 
-<div id="myPlot" style="width:100%;max-width:97%"></div>
 
 <script>
 var xArray = ["PENDING", "PAID"];
 var yArray = [<%=pending%>,<%=paid%>];
-var layout = {title:"CUSTOMER PAID & PENDING STATISTIC"};
-var data = [{labels:xArray, values:yArray, type:"pie"}];
+var layout = {title:"CUSTOMER PAID & PENDING STATISTIC", paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor: 'rgba(0,0,0,0)'};
+var data = [{labels:xArray, values:yArray, type:"pie",}];
 
 Plotly.newPlot("myPlot", data, layout);
 </script>

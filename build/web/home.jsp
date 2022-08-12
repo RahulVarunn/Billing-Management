@@ -7,52 +7,191 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>home</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.22.0/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 <link rel="stylesheet" href="style.css">
 
 </head>
-<body>
+<body style="background-color: #1D1D20;">
 
-<!--NAVIGATION BAR-->
 
-<nav class="nav_css navbar navbar-expand-lg  navbar-light  fixed-top"  >
-        <div class="container-fluid">
-        <a class="navbar-brand text-capitalize fw-normal fs-5" href="#" style="color: aliceblue;">HELLO, <%=session.getAttribute("admin")%></a>
-        <button style="color: aliceblue;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        </ul>           
-        <form class="d-flex">    
-        <div class="input-group ">
-        <input type="text" class="form-control" placeholder="Enter Name or Phone no" name="search_box" aria-label="Example text with two button addons">      
-        <button class="btn btn-outline-secondary" type="submit" name="search">Search</button>
-        <button class="btn btn-outline-danger me-4" type="submit" name="close">Close</button>
-        <button class="btn  btn-light btn-sm ps-4 pe-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" >ADD CUSTOMER</button>
+
+
+
+
+
+
+  <% 
+  String countq = "select count(*) from customer";
+ PreparedStatement  pst_count=database.connection.getConnection().prepareStatement(countq);
+       ResultSet rs = pst_count.executeQuery();
+       rs.next();
+             int count = rs.getInt(1);
+ 
+ 
+ %>
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+<nav class=" fixed top-0 left-0 right-0 inset-x-0 top-0  z-40" style="background-color: #1D1D20;">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <!-- Mobile menu button-->
+        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <!--
+            Icon when menu is closed.
+
+            Heroicon name: outline/menu
+
+            Menu open: "hidden", Menu closed: "block"
+          -->
+          <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!--
+            Icon when menu is open.
+
+            Heroicon name: outline/x
+
+            Menu open: "block", Menu closed: "hidden"
+          -->
+          <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0 flex items-center"><h1 style="font-weight: bold;">ADMIN</h1>
+
         </div>
-        </form>            
+        <div class="hidden sm:block sm:ml-6">
+          <div class="flex space-x-4">
+            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+            <h1  class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white  rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none  dark:hover:bg-blue-700 " style="color: white;">
+              Home
+              <span class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                2
+              </span>
+            </h1>
+
+
+
+
+            <a href="info.jsp" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Information</a>
+
+            
+
+            <label  for="my-modal-3" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Customer</label>
+          </div>
         </div>
+      </div>
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+        <!-- Profile dropdown -->
+        <div class="ml-3 relative">
+          <div>
+            <a href="login.jsp" class=" bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" ><i class="material-icons">logout</i></a>
+
+        
+          </div>
+
+<!--           
+            Dropdown menu, show/hide based on menu state.
+
+            Entering: "transition ease-out duration-100"
+              From: "transform opacity-0 scale-95"
+              To: "transform opacity-100 scale-100"
+            Leaving: "transition ease-in duration-75"
+              From: "transform opacity-100 scale-100"
+              To: "transform opacity-0 scale-95"
+          -->
+
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu, show/hide based on menu state. -->
+  <div class="sm:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+      <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
+    </div>
+  </div>
 </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><br><br>
 
 
+
+<form class="flex items-center ml-4">   
+  <label for="voice-search" class="sr-only">Search</label>
+  <div class="relative w-96">
+      <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+      </div>
+      <input type="text" id="voice-search" name="search_box" class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="background-color: #2E2E33;" placeholder="Search Customer " required="">
+  </div>
+  <button type="submit" name="search" style="background-color: #3ABAB4;" class="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border  border-none  ">
+      <svg aria-hidden="true" class="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
+  </button>
+</form>
+<br><br>
 
 
     
  
     
 <% if(request.getParameter("search")!=null){%>
-   <h4 class="ms-3">SEARCH RESULT</h4>       
+   <h4 class="ml-4 ">SEARCH RESULT</h4>       
    <div class="card-group mb-4" style="border-bottom: 2px solid grey;">
        
 <!--SEARCH CUSTOMER-->
@@ -70,21 +209,17 @@ ResultSet x=pst.executeQuery();
 while(x.next()){%>
 
 
-        <div style="display:inline-block">
-        <form  action="details.jsp"method="get">
-        <div class="card m-2 shadow-sm" >
-        <div class="card-body">
-            <h6 class="card-title"><%=x.getString("name").toUpperCase()%></h6>
-            <p class="card-text-sm">Add Product or Details of Customer  </p>
-            <p class="card-text-sm">Total Amount : <%=x.getInt("total_amt")%> Rupees </p>
-            <p class="card-text-sm">  <br>
-            <button class="btn   btn-dark btn-sm ps-4 pe-4  " value="submit" name="btn"> Add Entry!!</button></p>
-            <input type="hidden" value="<%=x.getInt("id")%>" name="id">
-            <input type="hidden" value="<%=x.getString("name")%>" name="customer">
-        </div>
-        </div>   
-        </form>
-        </div>    
+  <form  action="details.jsp"method="get">             
+    <button value="submit"  name="btn" class="shadow-xl ml-4 mb-4 mt-4  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+      <input type="hidden" name="id" value="<%=x.getInt("id")%>" >
+      <input type="hidden" name="customer" value="<%=x.getString("name")%>" >
+      <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-left  font-bold tracking-tight text-gray-900 dark:text-white" ><%=x.getString("name").toUpperCase()%></h5>
+          <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;">Customer Registered On <%=x.getString("date")%><br> Customer Phone number <%=x.getString("phone")%>   </p>
+    
+      </div><br>
+    </button>
+    </form>
 <% }%>  
         
 
@@ -99,30 +234,17 @@ while(x.next()){%>
      </div>
  
     
-    
-    
+
     
     
 
 <!--GETTING CUSTOMERS DATA  -->
 
-<% 
- String countq = "select count(*) from customer";
-PreparedStatement  pst_count=database.connection.getConnection().prepareStatement(countq);
-      ResultSet rs = pst_count.executeQuery();
-      rs.next();
-            int count = rs.getInt(1);
 
 
-%>
-
-<H3 class="ms-4 mt-3">HOME</H3>
-<h6 class="ms-4 mb-5">ALL CUSTOMERS (<%=count%>)</h6>
-
-<div class="container-fluid mb-3 " >
   
         
-<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+<div class="grid grid-cols-3 gap-4 ml-4 mr-4">
                         
 <%                 
                     
@@ -131,87 +253,292 @@ PreparedStatement  pst=database.connection.getConnection().prepareStatement(a);
 ResultSet x=pst.executeQuery();
 while(x.next()){%>
 
-  <div class="col mb-4">
+  <% 
+  
+    
+    //get total pending price of a aproduct        
+    String mt="select sum(total) from customers_details where payment_status=? and customer_id=? ";
+    PreparedStatement  pst_pending=database.connection.getConnection().prepareStatement(mt);
+    pst_pending.setString(1, "pending");
+    pst_pending.setInt(2,x.getInt("total_amt"));
+
+    ResultSet total_pending=pst_pending.executeQuery(); 
+    total_pending.next();
+    int pending = (int)total_pending.getInt(1);  
+ 
+      
+   mt="select sum(total) from customers_details where payment_status=? and customer_id=? ";
+    PreparedStatement  pst_paid=database.connection.getConnection().prepareStatement(mt);
+    pst_paid.setString(1, "paid");
+    pst_paid.setInt(2,x.getInt("id"));
+
+    ResultSet total_paid=pst_paid.executeQuery(); 
+    total_paid.next();
+    int paid = total_paid.getInt(1);  
+ %> 
 
 
-<div class=" card m-2 shadow-sm "  >
-    <div class="card-body" >
-    <form  action="details.jsp"method="get">
 
-            <h6 class="card-title"><%=x.getString("name").toUpperCase()%> &nbsp;&nbsp;(<%=x.getDate("date")%>)</h6>
 
-            <p class="card-text-sm">Add Product or Details of Customer  </p>
-            <p class="card-text-sm">Total Amount : <%=x.getInt("total_amt")%> Rupees </p>
-          
 
-            <button class="btn   btn-dark btn-sm ps-4 pe-4  " value="submit" name="btn"> Add Entry!!</button>
-            <input type="hidden" value="<%=x.getInt("id")%>" name="id">
-            <input type="hidden" value="<%=x.getString("name")%>" name="customer">
-            
-          
-                 </form>
-            
-            
-            
-<!--              <form > <input type="submit" value="" />  </form> -->
 
-   
-        </div>
-            
-            
-        
-        </div>
-  </div>
+<form  action="details.jsp"method="get">             
+<button value="submit"  name="btn" class="shadow-xl  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+  <input type="hidden" name="id" value="<%=x.getInt("id")%>" >
+  <input type="hidden" name="customer" value="<%=x.getString("name")%>" >
+  <canvas id="myChart" style="width:95%;max-width:230px; "></canvas>
+  <div class="flex flex-col justify-between p-4 leading-normal">
+      <h5 class="mb-2 text-left  font-bold tracking-tight text-gray-900 dark:text-white" ><%=x.getString("name").toUpperCase()%></h5>
+      <p class="mb-3 text-left font-normal text-gray-700 dark:text-gray-400" style="font-size: 12px;">Customer Registered On <%=x.getString("date")%> Customer Phone number <%=x.getString("phone")%>   </p>
+
+  </div><br>
+</button>
+</form>
+
+
+
+
+
+               
+              <script>
+                var xValues = ["PENDING", "PAID"];
+                var yValues = [100,50];
+                var barColors = [
+                  "#b91d47",
+                  "#00aba9",
+                  "#2b5797",
+                  "#e8c3b9",
+                  "#1e7145"
+                ];
+                
+                new Chart("myChart", {
+                  type: "pie",
+                  data: {
+                    labels: xValues,
+                    datasets: [{
+                      backgroundColor: barColors,
+                      data: yValues
+                    }]
+                  },
+                  options: {
+                    title: {
+                      display: true,
+                      text: "Customer "
+                    }
+                  }
+                });
+                </script>
+
+
 
 
 <% }%>  
         
  </div>
-</div>
 <br><br><br>
-<!--GRAPH-->
 
 
-<div class="fixed-bottom shadow-lg " style="background-color:white;">
-<center>
-  <button type="button" class=" btn mt-3 btn-outline-dark btn-sm ps-4 pe-4 mb-3" data-toggle="modal" data-target="#myModal">Show Graph</button>
-    <a href="login.jsp" class=" btn mt-3 btn-outline-dark btn-sm ps-4 pe-4 mb-3 ms-4" >Logout</a>
 
-</center>
 
+
+
+<!-- The button to open modal -->
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="my-modal-3" class="modal-toggle" />
+<div class="modal">
+
+
+
+  <div class="p-4 w-full max-w-sm bg-white backdrop-blur-sm rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 modal-box relative" style="background-color:#1D1D20 ;">
+    <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+
+    <form class="space-y-6"  action="add_customer.jsp"  method="post">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Add New Customer</h5>
+        <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Customer Name</label>
+            <input type="text" name="name" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="ABC XYZ" required="" style="background-color: #2E2E33;">
+        </div>
+        <div>
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Customer Phone Number</label>
+          <input type="number" name="phone" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="999XXXXX0" required="" style="background-color: #2E2E33;">
+      </div>
+
+      <div>
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Customer Address</label>
+        <input type="text" name="adr" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Building Name Plot no....." required="" style="background-color: #2E2E33;">
+    </div>
+<!-- 
+        <div class="flex items-start">
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">
+                </div>
+                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+            </div>
+            <a href="#" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
+        </div> -->
+        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  style="background-color: #3ABAB4;">Add Customer</button>
+        <!-- <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+            Not registered? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+        </div> -->
+    </>
 </div>
-  <!-- Modal -->
+</div>
+
+
+
+
 
   
+
+
+
+
+
+
+
+
+<% 
   
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true" >
-  <div class="modal-dialog modal-fullscreen" style="width:max-content">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title h4" id="exampleModalFullscreenLabel">GRAPH</h3>
-      </div>
-      <div class="modal-body">
-          
-        <div id="customergrp" style="width:100%;max-width:97%" > </div>
-        <div id="customer_pending" style="width:100%;max-width:97%" > </div>
-        <div id="customer_paid" style="width:100%;max-width:97%" > </div>
-        
-        
-        <div id="plot_total" style="width:100%;max-width:97%"></div>
-        <div id="plot_pend" style="width:100%;max-width:97%"></div>
-        <div id="plot_paid" style="width:100%;max-width:97%"></div>
+    
+//get total pending price of a aproduct        
+String mt="select sum(total) from customers_details where payment_status=? ";
+PreparedStatement  pst_pending=database.connection.getConnection().prepareStatement(mt);
+pst_pending.setString(1, "pending");
+ResultSet total_pending=pst_pending.executeQuery(); 
+total_pending.next();
+int pending = (int)total_pending.getInt(1);  
 
-        
-        <div id="pie_total" style="width:100%;max-width:97%"></div>
-        <div id="pie_pend" style="width:100%;max-width:97%"></div>
-        <div id="pie_paid" style="width:100%;max-width:97%"></div>
+  
+mt="select sum(total) from customers_details where payment_status=?  ";
+PreparedStatement  pst_paid=database.connection.getConnection().prepareStatement(mt);
+pst_paid.setString(1, "paid");
+ResultSet total_paid=pst_paid.executeQuery(); 
+total_paid.next();
+int paid = total_paid.getInt(1);  
 
+
+mt="select count(*) from customer ";
+PreparedStatement  pst_cus=database.connection.getConnection().prepareStatement(mt);
+ResultSet total_cus=pst_cus.executeQuery(); 
+total_cus.next();
+int ttl_cus = total_cus.getInt(1);  
+%> 
+
+
+
+
+
+
+
+
+<div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full bg-gray-900 lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20" style="background-color: #202023;">
+  <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
+    <div>
+      <p class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
+        Graphs
+      </p>
+    </div>
+    <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto" style="color: #3ABAB4;">
+      <span class="relative inline-block">
+        <svg viewBox="0 0 52 24" fill="currentColor" class="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-blue-gray-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block">
+          <defs>
+            <pattern id="18302e52-9e2a-4c8e-9550-0cbb21b38e55" x="0" y="0" width=".135" height=".30">
+              <circle cx="1" cy="1" r=".7"></circle>
+            </pattern>
+          </defs>
+          <rect fill="url(#18302e52-9e2a-4c8e-9550-0cbb21b38e55)" width="52" height="24"></rect>
+        </svg>
+        <span class="relative">Whenever</span>
+      </span>
+       you see a successful business, someone once made a courageous decision.    </h2>
+    <p class="text-base text-gray-700 md:text-lg">
+       Here Is Your Statistic , No of customer , profits and losses
+    </p>
+  </div>
+  <div class="grid gap-4 row-gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+    <div class="flex flex-col drop-shadow-xl justify-center rounded p-3 w-60 h-48   shadow-sm" style="background-color: #2E2E33;">
+      <div>
+    <center>
+        <h6 class="mb-4 font-bold leading-5 text-2xl" ><%=pending%></h6>
+        <p class="mb-3 text-sm font-semibold">
+          PENDING AMOUNT
+        </p>
+      </center>
       </div>
-      <div class="modal-footer">
+    </div>
+    
+    
+    <div class="flex flex-col justify-center drop-shadow-xl rounded p-3 w-60 h-48  ml-12 shadow-sm" style="background-color: #2E2E33;">
+      <div>
+    <center>
+        <h6 class="mb-4 font-bold leading-5 text-2xl" ><%=paid%></h6>
+        <p class="mb-3 text-sm font-semibold ">
+          PAID AMOUNT
+        </p>
+      </center>
+      </div>
+    </div>
+
+
+    <div class="flex flex-col justify-center p-3 w-60 h-48 rounded drop-shadow-xl ml-12 shadow-sm" style="background-color: #2E2E33;">
+      <div>
+    <center>
+        <h6 class="mb-4 font-bold leading-5 text-2xl" ><%=pending+paid%></h6>
+        <p class="mb-3 text-sm font-semibold">
+          TOTAL AMOUNT
+        </p>
+      </center>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center p-3 w-60 h-48 rounded drop-shadow-xl ml-12 shadow-sm" style="background-color: #2E2E33;">
+      <div>
+    <center>
+        <h6 class="mb-4 font-bold leading-5 text-2xl" ><%=ttl_cus%></h6>
+        <p class="mb-3 text-sm font-semibold">
+          CUSTOMERS
+        </p>
+      </center>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Modal -->
+
+  
+  
+
 
 
 
@@ -222,215 +549,35 @@ while(x.next()){%>
 
 <!-- DATA -->
 
-<script> 
-    var customer = [];
-    var price = []; 
-    var customer_paid = [];
-    var customer_pending = [];
-
-</script> 
-
-
-
-<% 
-
- a="select * from customer";
-PreparedStatement  pst1=database.connection.getConnection().prepareStatement(a);
-ResultSet customer=pst1.executeQuery();
-while(customer.next()){%>
-
-   <script>customer.push("<%=customer.getString("name") %>"); </script>
-   <script>price.push(<%=customer.getString("total_amt")%>); </script>
-   <script>customer_paid.push(<%=customer.getString("total_paid")%>); </script>
-   <script>customer_pending.push(<%=customer.getString("total_pending")%>); </script>
-
-<%}%>
-
-
-
-
-
-<!--TOTAL CUSTOMER BAR CHART-->
-
-<script>
-var data = [{
-  x:price,
-  y:customer,
-  type:"bar",
-  orientation:"h",
-  marker: {color:"rgba(255,0,0,0.6)"}
-}];
-var layout = {title:"CUSTOMER TOTAL(GRAPH)"};
-Plotly.newPlot("customergrp", data, layout);
-</script>
-
-<!--________________________TOTAL PENDING_______________________-->
-
-<script>
-var data = [{
-  x:customer_pending,
-  y:customer,
-  type:"bar",
-  orientation:"h",
-  marker: {color:"rgba(255,0,0,0.6)"}
-}];
-var layout = {title:"CUSTOMER PENDING(GRAPH)"};
-Plotly.newPlot("customer_pending", data, layout);
-</script>
-
-<!--TOTAL PAID-->
-
-<script>
-var data = [{
-  x:customer_paid,
-  y:customer,
-  type:"bar",
-  orientation:"h",
-  marker: {color:"rgba(255,0,0,0.6)"}
-}];
-var layout = {title:"CUSTOMER PAID(GRAPH)"};
-Plotly.newPlot("customer_paid", data, layout);
-</script>
-
-
-<!--___________________________________________________-->
-
-
-<script>
-
-var data = [{
-  x:price,
-  y:customer,
-  type:"bar"
-}];
-var layout = {title:"CUSTOMER TOTAL"};
-Plotly.newPlot("plot_total", data, layout);
-</script>
-
-
-
-<script>
-var data = [{
-  x:customer_pending,
-  y:customer,
-  type:"bar"
-}];
-var layout = {title:"CUSTOMER PENDING"};
-Plotly.newPlot("plot_pend", data, layout);
-</script>
-
-
-
-
-<script>
-var data = [{
-  x:customer_paid,
-  y:customer,
-  type:"bar"
-}];
-var layout = {title:"CUSTOMER PAID"};
-Plotly.newPlot("plot_paid", data, layout);
-</script>
-
-<!--____________________________________-->
-
-
-
-<script>
-var data = [{
-  values: price,
-  labels: customer,
-  type: 'pie'
-}];
-
-var layout = {title:"CUSTOMER TOTAL"};
-
-Plotly.newPlot('pie_total', data, layout);
-</script>
-
-<script>
-var data = [{
-  values: customer_pending,
-  labels: customer,
-  type: 'pie'
-}];
-
-var layout = {title:"CUSTOMER PENDING"};
-
-Plotly.newPlot('pie_pend', data, layout);
-</script>
-
-<script>
-var data = [{
-  values: customer_paid,
-  labels: customer,
-  type: 'pie'
-}];
-
-var layout = {title:"CUSTOMER PAID"};
-
-Plotly.newPlot('pie_paid', data, layout);
-</script>
 
 <!--ADD USER-->
 
 
 
-                  <form action="add_customer.jsp"  method="post">
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="background-color: #222; color: white;" >
-    <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Add  Customer</h5>
-    </div>
-    <div class="offcanvas-body mt-5 ">
-    <div>
-
-        <div class="mb-2">
-          <label  class="col-sm col-form-label me-2">ENTER CUSTOMER NAME : </label>
-          <input type="text" name="name" class="form-control form-control-sm" placeholder="Customer name" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-        </div>
-        <div class="mb-2">
-          <label  class="col-sm col-form-label me-2">ENTER ADDRESS : </label>
-          <textarea type="text" rows="5px" name="adr" class="form-control form-control-sm" placeholder="Customer address" id="exampleInputPassword1" required></textarea>
-        </div>
-
-        <div class="mb-2">
-          <label  class="col-sm col-form-label me-2">ENTER PHONE : </label>
-          <input type="number" name="phone" class="form-control" placeholder="Customer phone no"   required>
-        </div>
-
-
- 
-    
-        </div>
-        
-      
-        </div>
-
-        <div  style=" border-top: 5px solid  #1adad0;">
-          <center>       
-          <button type="submit" class="mt-4 mb-4 btn   btn-light  btn-sm ps-4 pe-4 " name="add" ">SUBMIT</button>
-            <button type="button" class="mt-4 mb-4 btn ms-3 btn-light  btn-sm ps-4 pe-4 " data-bs-dismiss="offcanvas" aria-label="Close">CLOSE</button>
- 
-          </center>  
-        </div>
-</div>
-
-                  </form>
 
 
 <!--TOAST-->
 
 <% 
       if(session.getAttribute("action")!=null ){%>
-    <div style="position:absolute" class="fixed-top top-0 start-50 translate-middle-x toast align-items-center mt-3 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true">
-    <div class="d-flex">
-    <div class="toast-body  ">
-        <%=session.getAttribute("action") %>   
-        <%session.removeAttribute("action");%>   
+
+
+  <div id="toast-success" class="backdrop-blur-sm fixed  z-40 right-5 bottom-5 flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-900" role="alert">
+    <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Check icon</span>
     </div>
+    <div class="ml-3 text-sm font-normal"><%=session.getAttribute("action") %>   
+
+      <%session.removeAttribute("action");%>
     </div>
-    </div>   
+    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+    </button>
+  </div>
+
+  
 <% } %>
 
 

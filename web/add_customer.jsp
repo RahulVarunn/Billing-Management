@@ -1,4 +1,6 @@
 
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
 <!--THIS JSP USED TO ADD CUSTOMER -->
 
 
@@ -7,7 +9,8 @@
 
       
     <%
-     
+ 
+
        String name = request.getParameter("name");
   
        if(name!=null){
@@ -26,11 +29,13 @@ PreparedStatement  pst=database.connection.getConnection().prepareStatement(a);
               pst.setDate(4, Date_current); 
             
              pst.executeUpdate();
+    
             session.setAttribute("action", "CUSTOMER SUCESSFULLY ADDED");
             // ADDING ACTION SESSION TO PERFORM MODAL
-             out.println("done! add another");
+//             out.println("done! add another");
              session.setAttribute("action", "CUSTOMER SUCESSFULLY ADDED");
              response.sendRedirect("home.jsp");
+             
     %>
              
                  
