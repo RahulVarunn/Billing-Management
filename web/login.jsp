@@ -1,119 +1,73 @@
-<!-- * @author RAHUL and SHREYA (INTERNSHIP PROJECT)-->
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="border-l">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin.css">
-    
-      <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script><!-- comment -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Admin</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .input {
+            transition: border 0.2s ease-in-out;
+            min-width: 280px
+        }
+        .input:focus+.label,
+        .input:active+.label,
+        .input.filled+.label {
+            font-size: .75rem;
+            transition: all 0.2s ease-out;
+            top: -0.9rem;
+            background-color: #fff;
+            color: white;
+            padding: 0 5px 0 5px;
+            margin: 0 5px 0 5px;
+        }
+        .label {
+            transition: all 0.2s ease-out;
+            top: 0.4rem;
+            left: 0;
+        }
+    </style>
 </head>
-
-
-<body style="background-color: #222;">
-    
-    
-<!--    TOAST TO SHOW WELCOME WHILE THE USER OPEN A PAGE FORA A FIRST TIME OR WHILE RELOAD-->
-    
-<div style="position:absolute" class="toast align-items-center mt-3 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true">
-<div class="d-flex">
-      <div class="toast-body  ">
-          <%if(session.getAttribute("warning")!=null){%>
-                 <%=session.getAttribute("warning")%>
+<body style="background-color: #1D1D20;">
+<div class="md:h-screen  relative flex flex-col justify-center items-center">
+    <div class=" " >
+        <div class="flex flex-col items-center space-y-3">
            
-          <%}else{%>
-                  Hello , Admin Please Login
-
-          <%}%>
-      </div>
-</div>
-</div> 
-    
-  
-
-
-
-
-<div class="container-fluid vh-100 ">
-    <div class="row row-cols-auto d-flex justify-content-center align-items-center h-100 ">
-<!--   IMAGE DIV     -->
-    <div class=" col-lg-4 col-md-5 col-sm-3  " >
-        
-        <img src="image/img1.png" class="img-fluid" alt="" srcset="">       
-    </div>
-        
-    <div class="col-lg-4 col-md-8 col-sm-9 offset-lg-1 " style="background-color: #222;">
-        
-<!--    FORM TO ENTER INTO HOME PAGE....THIS FORM OPEN ADMMIN_VERIFIVATION JSP...TO VALIDATE PASSWARD AND REDIRECT TO HOME PAGE    -->
-        <form action="admin_verification" method="post">  
-            <p class="text-center text-light mb-5 fw-bolder fs-4">WELCOME</p> 
-            <div class="input-group input-group-md mb-2 mt-3">
-                <input type="password" name="pass" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Enter a Passowrd">
+            <h1 class="" style="color: white;">Welcome </h1>
+        </div>
+        <form class="my-8" action="admin_verification" method="post">
+            <div class="relative mb-2">
+                <input name="pass" style="background-color: #2E2E33; color: white;" type="password" id="email" class="pl-3 w-full rounded px-2 border border-gray-300 pt-2 pb-2 focus:ring-1  focus:outline-none input active:outline-none"  type="text" autofocus>
+                <label style="background-color: #2E2E33;" for="email" class="rounded label absolute mt-1 ml-3  leading-tighter text-gray-600 text-base cursor-text">Enter Password</label>
             </div>
-        <center>       
-       <button type="submit" class="btn mt-3 btn-light btn-sm ps-4 pe-4 " >LOGIN</button>
-       <button type="button" class="btn mt-3 btn-light btn-sm ps-4 pe-4 ms-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">SETTING</button>
-        </center>   
-        </form>
-
-          
-    </div>
-    </div>
-</div>
-        
 
 
-<!-- MODAL ITS USED TO LOGIN TO ADMIN CONTROL THIS MODEL REDIRECT TO ADMIN_CONTROL.JSP FILE AFTER VALIDATING PROCESS -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog">
-   <div class="modal-content">
-        <div class="modal-header">
-
-        <h5 class="modal-title" id="staticBackdropLabel">LOGIN</h5>
-
-      </div>
-      <div class="modal-body">
-        
-          <form action="admin_control.jsp" method="post">
-              
-              <div class="input-group mb-3">
-                  <input type="password" name="password" class="form-control" placeholder="Enter Password or Web Id" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
-   
-   
-  <button class="btn btn-outline-dark" type="submit" id="button-addon1">Login</button>
-  <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
-
-</div>
-              <h6 class="text-danger" style="font-size: 10px;">IN CASE OF U FORGET UR LOGIN PASSWORD PLEASE CONTACT UR SOFTWARE PROVIDER</h6>
+            <div class="space-y-9 mt-6" >
+           
             
-          </form>
-          
-      </div>
-     
+                <div class="text-sm flex justify-between items-center">
+                    <button type="submit"  style="background-color: #2E2E33; font-size: 12px;"  class="text-white bg-[#050708] hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 mr-4 mb-2">
+                        LOGIN TO SYSTEM &nbsp;
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Icon description</span>
+                      </button>
+
+
+
+                      <button name="admin" style="background-color: #2E2E33;font-size: 12px;"  class="text-white bg-[#050708] hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 mr-2 mb-2">
+                        ADMIN SETTING  
+                      </button>
+
+              
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
 </div>
-      
-        
-
-
-
-<!--SCRIPT FOR TOAST-->
-
-<script>
-$(document).ready(function(){
-  $('.toast').toast('show');
-});
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
 </body>
 </html>

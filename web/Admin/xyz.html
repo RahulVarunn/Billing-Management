@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            var request = new XMLHttpRequest ();
+            request.open("GET","http://localhost:8787/project_webservices_rest_/webresources/product.products","true");
+            request.onload = function (){
+                var data = JSON.parse(this.response);
+                
+                table = document.getElementById("myTable");
+                
+                for(var i = 0 ; i<data.length;i++){
+                    row= table.insertRow();
+                    cell1 = row.insertCell();
+                    cell2 = row.insertCell();
+                    cell3 = row.insertCell();
+                    
+                    cell1.innerHTML = data[i].productName;
+                    cell2.innerHTML = data[i].productMrp;
+                    cell3.innerHTML = data[i].productPrice;
+                    }
+                };
+            request.send();
+            </script>
+    </head>
+    <body>
+        <table id="myTable">
+            <tr>
+                <th> Roll No </th>
+                <th> Name </th>
+                <th> City </th>
+            </tr>
+        </table>
+    </body>
+</html>

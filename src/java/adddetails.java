@@ -21,30 +21,30 @@ public class adddetails extends HttpServlet {
         
        
            int id = Integer.parseInt( request.getParameter("id"));
-           String product_name[] =request.getParameterValues("prod_name");
-            String price[] =request.getParameterValues("prod_price"); 
-           String quantity[] = request.getParameterValues("prod_quantity"); 
-           String payment_status[] =request.getParameterValues("payment");
+           String product_name =request.getParameter("prod_name");
+            String price =request.getParameter("prod_price"); 
+           String quantity = request.getParameter("prod_quantity"); 
+           String payment_status =request.getParameter("payment");
 
 
            
            java.util.Date date=new java.util.Date();
 Timestamp Time=new java.sql.Timestamp(date.getTime());       
            
-      
+//    product_name	product_price	product_mrp	
+  
                   
-    String a="INSERT INTO customers_details(product_name,product_price,prod_quantity,customer_id,payment_status,total,date)"
+    String b="INSERT INTO customers_details(product_name,product_price,prod_quantity,customer_id,payment_status,total,date)"
         + " VALUES(?,?,?,?,?,?,?)";
-    PreparedStatement  pst=database.connection.getConnection().prepareStatement(a);
+    PreparedStatement  pst=database.connection.getConnection().prepareStatement(b);
     
     
-    for(int i=0;i<product_name.length;i++){  
-             pst.setString(1, product_name[i]);   
-             pst.setLong(2, Long.parseLong(price[i]));
-             pst.setLong(3, Long.parseLong(quantity[i]));
+             pst.setString(1, product_name);   
+             pst.setLong(2, Long.parseLong(price));
+             pst.setLong(3, Long.parseLong(quantity));
              pst.setInt(4, id);
-             pst.setString(5, payment_status[i]);  
-            pst.setLong(6,(Long.parseLong(price[i])*Long.parseLong(quantity[i])) ); 
+             pst.setString(5, payment_status);  
+            pst.setLong(6,(Long.parseLong(price)*Long.parseLong(quantity)) ); 
             pst.setTimestamp(7, Time);
             
              pst.executeUpdate();
@@ -53,7 +53,18 @@ Timestamp Time=new java.sql.Timestamp(date.getTime());
 
 
 
-    }        
+       
+    
+    
+        String a="INSERT INTO products(product_name,product_price,product_mrp)"
+        + " VALUES(?,?,?)";
+    PreparedStatement  prod=database.connection.getConnection().prepareStatement(a);
+            prod.setString(1, product_name);   
+             prod.setLong(2, Integer.parseInt(price));
+             prod.setInt(3, 0);
+             prod.executeUpdate();
+
+    
     
            HttpSession session=request.getSession();
        session.setAttribute("prod", "PRODUCT SUCCESSFULLY ADDED");

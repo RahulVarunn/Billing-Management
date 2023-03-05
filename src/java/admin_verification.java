@@ -28,8 +28,13 @@ if(x.next()){
     if( x.getString("admin_password").equals(request.getParameter("pass")) ){
        session.setAttribute("admin",x.getString("name") );
        session.removeAttribute("warning");
+       if (request.getParameter("admin")!=null){
+            response.sendRedirect("Admin/index.jsp");
+       
+       }
+       else{
         response.sendRedirect("home.jsp");
-        
+       }
         
     }else{
        session.setAttribute("warning", "INVALID PASSWORD!! TRY AGAIN");

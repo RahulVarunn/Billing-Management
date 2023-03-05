@@ -145,9 +145,9 @@ String a="update Customer set total_amt=? ,total_paid=?,total_pending=? where id
 
 
    
-<br><br><br>
-  <div class="flex">
-    <div class="grow mr-4 "  style="background-color:#202023 ; ">
+  <div class="flex" >
+    
+    <div class="grow mr-10  ml-4  "  style="background-color:#202023 ; ">
       <div class=" grid-rows-6 " >
 
 
@@ -215,19 +215,82 @@ int id=x.getInt("id");%>
 
           <%}%>  
      
-        <div id="myPlot" style="width:100%;max-width:97%;height: 10cm;"></div>
+        <div id="myPlot" class="mt-4" style="width:100%;max-width:97%"></div>
+
+
+
+
+
+        <div class="inset-x-0 bottom-0" style="background-color:#202023 ; ">
+
+
+    
+ 
+ 
+        
+          <div  class="shadow-xl  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+ 
+            <div class="flex  flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-left   tracking-tight text-gray-900 dark:text-white" >Due Amount : <%=pending%></p>
+                <h5 class="mb-2 text-left   tracking-tight text-gray-900 dark:text-white" >Paid Amount : <%=paid%></h5>
+                <h5 class="mb-2 text-left  font-bold tracking-tight text-gray-900 dark:text-white" >Total Amount : <%= total%></h5>
+        
+                
+            </div><br>
+          </div>  
+                
+                
+                
+                
+                
+                
+                
+            <div  class="shadow-xl  flex flex-col  bg-white rounded  shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700" style="background-color: #2E2E33;">
+ 
+                <div class="flex  flex-col justify-between  p-4 leading-normal"style="width:100%;">
+          <!-- The button to open modal -->
+          <label for="my-modal-4" style="background-color: #1D1D20" class="w-full btn modal-button" >Open Scanner</label>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="my-modal-4" class="modal-toggle " style="background-color: #1D1D20"  />
+<label for="my-modal-4" class="modal  cursor-pointer "  >
+  <label class="modal-box w-auto relative pl-15 mb-3 pb-3 pr-15" for=""  style="background-color: #1D1D20" >
+      <center>
+          <h3 class="text-lg font-bold">Scan Here To Pay Your Bill</h3>
+    <img src="image/scanner.png" height="250" width="250"></center>
+  </label>
+</label>
+            </div>
+                
+                
+                
+                <br>
+          </div>            
+                
+                
+                
+                
+                
+                
+        
+        </div>
+
+        
+
+
+
 
       </div>
     </div>
 
 
 
-    <div class="grow-0 ">
+    <div class="grow-0 mr-4 "  >
 
 
 
 
-      <form action="adddetails" method="post">
+      <form action="adddetails" method="post" >
  
         
     
@@ -237,32 +300,56 @@ int id=x.getInt("id");%>
         
         <div id="xyz">  
             
-         <div class="input-group mb-3" >
-             <input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   
-          <input type="number" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
-          <input type="number" class="form-control" name="prod_quantity" placeholder="Product Quantity" aria-label="Example text with button addon" aria-describedby="button-addon1" required>
-          <input type="hidden"  name="id"  value="<%=(int)session.getAttribute("id")%>">
+         <div class="input-group mb-3 " >
+
+
+          <div>
+            <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product Name</label>
+            <input type="text" name="prod_name"  placeholder="Product" class="block p-2 w-full text-gray-900 bg-gray-50   border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="border-radius: 0px;border: none; background-color: #2E2E33;">
+        </div>
+        <div>
+          <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product Price</label>
+          <input type="number" name="prod_price" placeholder="Price" class="block p-2 w-full text-gray-900 bg-gray-50   border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="border-radius: 0px;border: none; background-color: #2E2E33;">
+      </div>
+
+      <div>
+        <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product Quantity</label>
+        <input type="number" name="prod_quantity"  placeholder="Quantity" class="block p-2 w-full text-gray-900 bg-gray-50   border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="border-radius: 0px;border: none; background-color: #2E2E33;">
+    </div>
+
+
+    <div>
+      <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Payment Status</label>
+
+      <select id="inputGroupSelect01" name="payment" required class="block p-2 w-full text-gray-900 bg-gray-50   border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="border-radius: 0px;border: none; background-color: #2E2E33;">
+        <option value="">Payment Status</option>
+        <option value="Paid">Paid</option>
+        <option value="Pending">Pending</option>
+      </select>
+        </div>
+
+
+        <input type="hidden"  name="id"  value="<%=(int)session.getAttribute("id")%>"> 
+
+  <div>
+    <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">ADD </label>
+    <button class="block p-2 w-full text-gray-900 bg-gray-50   border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="submit"  >SUBMIT</button>
+  </div>
           
-          <select class="form-select" id="inputGroupSelect01" name="payment" required>
-            <option value="">Payment Status</option>
-            <option value="Paid">Paid</option>
-            <option value="Pending">Pending</option>
-          </select>
-          <button class="btn btn-outline-secondary" type="button" id="btnAdd">ADD</button>
-           
+
+
         
          </div>   
             
         </div>  
         
-          <center>     <button class="btn btn-outline-dark mb-4" type="submit"  >SUBMIT</button></center>
         
         
                       
                       
         <!--     USING JAVASCRIPT TO CREATING DYNAMIC TEXT BOXES       -->
               
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
         $(function () {
             $("#btnAdd").bind("click", function () {
                 var div = $("<div />");
@@ -275,7 +362,13 @@ int id=x.getInt("id");%>
             });
         });
         function GetDynamicTextBox() {
-            return ' <div class="input-group mb-3" >'+
+            return 
+            
+            
+            
+            
+            
+            ' <div class="input-group mb-3" >'+
         '<input type="text" class="form-control" name="prod_name" placeholder="Product Name" aria-label="Example text with button addon" aria-describedby="button-addon1" required>   &nbsp;'+
         ' <input type="text" class="form-control" name="prod_price" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
          '  <input type="text" class="form-control" name="prod_quantity" placeholder="Product Price" aria-label="Example text with button addon" aria-describedby="button-addon1" required>'+
@@ -293,7 +386,7 @@ int id=x.getInt("id");%>
             
             
         }
-        </script>
+        </script> -->
         
         
             </form>
@@ -323,9 +416,9 @@ ResultSet x1=pst1.executeQuery();%>
 
     <!-- <div role="status" class="p-4 space-y-4 max-w-md rounded border border-gray-200 divide-y divide-gray-200 shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"> -->
 
-      <div class="p-4  max-w-xl bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style="background-color: #2E2E33;">
+      <div class="p-4   bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style="background-color: #2E2E33;">
         <div class="flex justify-between items-center mb-4">
-            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Customers</h5>
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">DETAILS</h5>
             <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                 View all
             </a>
@@ -350,18 +443,41 @@ ResultSet x1=pst1.executeQuery();%>
                   <div class="flex items-center space-x-4">
                  
                       <div class="flex-1 min-w-0">
-                          <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                          <p class="text-sm font-medium text-gray-900 truncate dark:text-white" >
                             <%=x1.getString("product_name")%>
                           </p>
-                          <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                              email@windster.com
+                          <p class="text-sm text-gray-500 truncate dark:text-gray-400" style="font-size: 12px;">
+                             Quantity: <%=x1.getString("prod_quantity")%> Payment status: <%=x1.getString("payment_status")%>
                           </p>
+                          <p class="text-sm text-gray-500 truncate dark:text-gray-400" style="font-size: 12px;">
+                            Payment status: <%=x1.getString("payment_status")%> 
+                         </p>
+                         <p class="text-sm text-gray-500 truncate dark:text-gray-400" style="font-size: 12px;">
+                          <%=x1.getTimestamp("date")%>
+                       </p>
+
                       </div>
                       <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        <%=x1.getString("product_price")%>
+
+                        <div>
+                          <p class="text-sm text-gray-500 truncate dark:text-gray-400" style="font-size: 13px; ">
+                           Product price: <%=x1.getString("product_price")%>
+                          </p>
+                         <p class="text-sm  truncate dark:text-gray-400" style="font-size: 13px; color: white;">
+                          Total Price: <%=x1.getString("total")%>
+
+                        </p>
+
+                        </div>
+                        
+
+
+                        
                         <form  action="remove_product" method="post">
                           <input type="hidden" value="<%=x1.getInt("id")%>" name="prod_id"">
-                          <input type="submit" class="btn  mt-3  btn-sm ps-4 pe-4 btn-danger" name="delete"value="remove" onclick="alert('do you want to delete!')">
+                          <button class="ml-5 btn btn-circle " type="submit" onclick="alert('do you want to delete!')">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
                           </form>  
                       </div>
                   </div>
@@ -566,10 +682,12 @@ java.sql.Date Date_current=new java.sql.Date(date.getTime());
             var opt = {
            
     
-                margin: 0.4,
+                margin: 0,
                 filename: name,
-                image: { type: 'jpeg' , quality:0.98},
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                image: { type: 'pdf' , quality:0.98},
+                     html2canvas:  { dpi: 100, letterRendering: true },
+
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
             };
             html2pdf().from(print).set(opt).save();
         })

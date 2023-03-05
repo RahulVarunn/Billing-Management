@@ -49,7 +49,7 @@ pst.setString(8, address);
  pst.executeUpdate();
     session.setAttribute("warning", "ADMIN DATA hAS BEEN UPDATED!! ");
 
- response.sendRedirect("login.jsp");
+ response.sendRedirect("Admin/admin_setup.jsp");
  
 
  }
