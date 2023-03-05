@@ -26,7 +26,12 @@ analysis of customer details like paid, pending and total bills that a particula
 has paid. Admin can switch to viewing graphs by clicking on the graphs button to view
 all the graphs of paid, pending and total.
 
-![image](https://user-images.githubusercontent.com/98281711/222946728-05e658d0-19a0-4875-a61a-204c090da4bb.png)
+![image](https://user-images.githubusercontent.com/98281711/222946757-a65a6cfa-f535-4612-a54d-71895ae7c5b3.png)
+![image](https://user-images.githubusercontent.com/98281711/222946887-e8128b5d-eb8c-436b-b26b-3951731f76eb.png)
+![image](https://user-images.githubusercontent.com/98281711/222946919-23ae0a08-237e-4e88-831c-32fe32927ca3.png)
+![image](https://user-images.githubusercontent.com/98281711/222946937-f08c2cf2-c2f5-4505-9701-eb071bda0818.png)
+![image](https://user-images.githubusercontent.com/98281711/222946950-f9dd1d05-1ff9-45c3-b2ae-5028bfcb3804.png)
+![image](https://user-images.githubusercontent.com/98281711/222946978-458e0573-cdca-4468-bc8c-bd05807cee57.png)
 
 
 
